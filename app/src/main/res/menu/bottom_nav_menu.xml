@@ -1,12 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:id="@+id/list"
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item android:id="@+id/musicListFragment"
         android:icon="@drawable/ic_list"
-        android:title="List" />
-    <item android:id="@+id/music"
+        android:title="List"
+        app:showAsAction="always"/>
+    <item android:id="@+id/musicPlayerFragment"
         android:icon="@drawable/ic_music"
-        android:title="Music" />
-    <item android:id="@+id/settings"
+        android:title="Music"
+        app:showAsAction="always"/>
+    <item android:id="@+id/fragmentSettings"
         android:icon="@drawable/ic_settings"
-        android:title="Settings" />
+        android:title="Settings"
+        app:showAsAction="always"/>
 </menu>
