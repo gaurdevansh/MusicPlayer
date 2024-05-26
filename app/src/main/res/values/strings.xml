@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">MusicPlayer</string>
+    <string name="listen_to_your">Listen to your favourite songs!</string>
 </resources>

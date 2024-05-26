@@ -4,6 +4,7 @@ import android.content.ContentResolver
 import android.content.Context
 import android.provider.MediaStore
 import com.example.musicplayer.data.model.MediaItem
+import com.example.musicplayer.util.modifyTitle
 
 class MediaRepository(private val context: Context) {
 
@@ -33,14 +34,14 @@ class MediaRepository(private val context: Context) {
                     val artist = cursor.getString(artistColumn!!)
                     val path = cursor.getString(dataColumn!!)
 
-                    mediaItemList.add(MediaItem(id, title, artist, path))
+                    mediaItemList.add(MediaItem(id, title.modifyTitle(), artist.modifyTitle(), path))
                 }
             }
         }
 
-        for (mediaItem in mediaItemList) {
+        /*for (mediaItem in mediaItemList) {
             println("Media Item: ${mediaItem.title} by ${mediaItem.artist}")
-        }
+        }*/
         return mediaItemList
     }
 }
