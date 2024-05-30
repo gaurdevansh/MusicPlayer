@@ -29,7 +29,7 @@ class MainActivity : AppCompatActivity() {
     private val connection = object : ServiceConnection {
         override fun onServiceConnected(p0: ComponentName?, p1: IBinder?) {
             val binder = p1 as MediaService.MediaBinder
-            mediaService = p1.getService()
+            mediaService = binder.getService()
             isBound = true
         }
 

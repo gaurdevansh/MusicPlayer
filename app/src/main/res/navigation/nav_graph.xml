@@ -12,7 +12,7 @@
         tools:layout="@layout/fragment_music_list"/>
     <fragment
         android:id="@+id/musicPlayerFragment"
-        android:name="com.example.musicplayer.ui.fragments.MusicPlayerFragment"
+        android:name="com.example.musicplayer.ui.fragments.MediaPlayerFragment"
         android:label="MusicPlayerFragment"
         tools:layout="@layout/fragment_music_player"/>
     <fragment

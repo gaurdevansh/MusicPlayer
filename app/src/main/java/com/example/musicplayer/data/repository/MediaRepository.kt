@@ -39,9 +39,9 @@ class MediaRepository(private val context: Context) {
             }
         }
 
-        /*for (mediaItem in mediaItemList) {
-            println("Media Item: ${mediaItem.title} by ${mediaItem.artist}")
-        }*/
+        for (mediaItem in mediaItemList) {
+            println("Media Item: ${mediaItem.title} by ${mediaItem.path}")
+        }
         return mediaItemList
     }
 }

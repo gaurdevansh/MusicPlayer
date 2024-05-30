@@ -6,6 +6,8 @@ import android.os.Binder
 import android.os.IBinder
 import com.google.android.exoplayer2.ExoPlayer
 import com.google.android.exoplayer2.MediaItem
+import com.google.android.exoplayer2.Player
+import kotlin.math.exp
 
 class MediaService : Service() {
 
@@ -27,11 +29,19 @@ class MediaService : Service() {
         exoplayer = null
     }
 
-    fun play(url: String) {
+    fun start(url: String) {
         val mediaItem = MediaItem.fromUri(url)
         exoplayer?.setMediaItem(mediaItem)
         exoplayer?.prepare()
         exoplayer?.play()
+    }
+
+    fun play(url: String) {
+        if (exoplayer?.playbackState == Player.STATE_IDLE || exoplayer?.playbackState == Player.STATE_ENDED) {
+            start(url)
+        } else {
+            exoplayer?.play()
+        }
     }
 
     fun pause() {
