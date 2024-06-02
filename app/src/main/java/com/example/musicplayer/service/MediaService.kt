@@ -4,15 +4,18 @@ import android.app.Service
 import android.content.Intent
 import android.os.Binder
 import android.os.IBinder
-import com.google.android.exoplayer2.ExoPlayer
-import com.google.android.exoplayer2.MediaItem
-import com.google.android.exoplayer2.Player
-import kotlin.math.exp
+import androidx.lifecycle.LiveData
+import com.example.musicplayer.data.model.MusicItem
+import com.example.musicplayer.media.MediaPlayer
+import com.example.musicplayer.media.MediaPlayerImpl
 
 class MediaService : Service() {
 
     private val binder = MediaBinder()
-    private var exoplayer: ExoPlayer? = null
+    private lateinit var player: MediaPlayer
+    lateinit var mediaState: LiveData<MediaPlayer.PlayerState>
+    lateinit var mediaPosition: LiveData<MediaPlayer.PlayerPosition>
+    lateinit var currentMedia: LiveData<MusicItem>
 
     override fun onBind(p0: Intent?): IBinder? {
         return binder
@@ -20,36 +23,22 @@ class MediaService : Service() {
 
     override fun onCreate() {
         super.onCreate()
-        exoplayer = ExoPlayer.Builder(this).build()
+        player = MediaPlayerImpl(this)
     }
 
     override fun onDestroy() {
         super.onDestroy()
-        exoplayer?.release()
-        exoplayer = null
     }
 
-    fun start(url: String) {
-        val mediaItem = MediaItem.fromUri(url)
-        exoplayer?.setMediaItem(mediaItem)
-        exoplayer?.prepare()
-        exoplayer?.play()
+    fun prepare(musicItem: MusicItem) {
+        player.prepare(musicItem)
+        mediaState = player.state
+        currentMedia = player.currentMedia
+        mediaPosition = player.currentMediaPosition
     }
 
-    fun play(url: String) {
-        if (exoplayer?.playbackState == Player.STATE_IDLE || exoplayer?.playbackState == Player.STATE_ENDED) {
-            start(url)
-        } else {
-            exoplayer?.play()
-        }
-    }
-
-    fun pause() {
-        exoplayer?.pause()
-    }
-
-    fun stop() {
-        exoplayer?.stop()
+    fun playPause() {
+        player.playPause()
     }
 
     inner class MediaBinder : Binder() {

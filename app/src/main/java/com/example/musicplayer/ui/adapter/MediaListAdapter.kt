@@ -3,17 +3,17 @@ package com.example.musicplayer.ui.adapter
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.example.musicplayer.data.model.MediaItem
+import com.example.musicplayer.data.model.MusicItem
 import com.example.musicplayer.databinding.LayoutMediaItemBinding
 
 class MediaListAdapter: RecyclerView.Adapter<MediaListAdapter.MediaListViewHolder>() {
 
-    private var mediaList: List<MediaItem> = emptyList()
+    private var mediaList: List<MusicItem> = emptyList()
 
     inner class MediaListViewHolder(private val binding: LayoutMediaItemBinding): RecyclerView.ViewHolder(binding.root) {
-        fun bind(mediaItem: MediaItem) {
-            binding.mediaTitle.text = mediaItem.title
-            binding.mediaArtist.text = mediaItem.artist
+        fun bind(musicItem: MusicItem) {
+            binding.mediaTitle.text = musicItem.title
+            binding.mediaArtist.text = musicItem.artist
         }
     }
 
@@ -28,7 +28,7 @@ class MediaListAdapter: RecyclerView.Adapter<MediaListAdapter.MediaListViewHolde
         holder.bind(mediaList[position])
     }
 
-    fun updateMedia(mediaList: List<MediaItem>) {
+    fun updateMedia(mediaList: List<MusicItem>) {
         this.mediaList = mediaList
         notifyDataSetChanged()
     }

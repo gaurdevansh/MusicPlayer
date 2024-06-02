@@ -2,17 +2,19 @@ package com.example.musicplayer.ui.fragments
 
 import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import com.example.musicplayer.R
+import com.example.musicplayer.data.model.MusicItem
 import com.example.musicplayer.databinding.FragmentMusicPlayerBinding
+import com.example.musicplayer.media.MediaPlayer
 import com.example.musicplayer.service.MediaService
 import com.example.musicplayer.ui.MainActivity
 import com.example.musicplayer.ui.viewmodel.MediaPlayerViewModel
+import com.example.musicplayer.util.TimeUtils
 
 class MediaPlayerFragment: Fragment(R.layout.fragment_music_player) {
 
@@ -20,7 +22,6 @@ class MediaPlayerFragment: Fragment(R.layout.fragment_music_player) {
 
     private val viewModel: MediaPlayerViewModel by activityViewModels()
     private var mediaService: MediaService? = null
-    private var isPlaying = false
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -38,28 +39,46 @@ class MediaPlayerFragment: Fragment(R.layout.fragment_music_player) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.playPauseBtn.setOnClickListener {
-            val url = "/storage/emulated/0/Download/410.mp3"
-            if (!isPlaying) {
-                mediaService?.let { service ->
-                    viewModel.playMedia(service, url)
-                }
-            } else {
-                mediaService?.let { service ->
-                    viewModel.pauseMedia(service)
-                }
-            }
-            isPlaying = !isPlaying
+
+        mediaService?.let {
+            viewModel.prepare(it, musicItem = MusicItem(1,
+            "410",
+            "Siddhu Moosewala",
+                "/storage/emulated/0/Download/410.mp3")
+            )
         }
 
-        viewModel.isPlaying.observe(viewLifecycleOwner) { isPlaying ->
-            binding.playPauseBtn.setImageResource(
-                if (isPlaying) {
-                    R.drawable.ic_pause
-                } else {
-                    R.drawable.ic_play
-                }
-            )
+        binding.playPauseBtn.setOnClickListener {
+            mediaService?.let { service ->
+                viewModel.playPause(service)
+            }
+        }
+        observeMediaControls()
+    }
+
+    private fun observeMediaControls() {
+        mediaService?.let {
+            viewModel.exposeMediaState(it).observe(viewLifecycleOwner) { isPlaying ->
+                binding.playPauseBtn.setImageResource(
+                    if (isPlaying == MediaPlayer.PlayerState.PLAYING) {
+                        R.drawable.ic_pause
+                    } else {
+                        R.drawable.ic_play
+                    }
+                )
+            }
+
+            viewModel.exposeCurrentMedia(it).observe(viewLifecycleOwner) { musicItem ->
+                binding.mediaArtist.text = musicItem.artist
+                binding.mediaTitle.text = musicItem.title
+            }
+
+            viewModel.exposeMediaPosition(it).observe(viewLifecycleOwner) { (current, total) ->
+                binding.currentDuration.text = TimeUtils.getFormattedTime(current)
+                binding.totalDuration.text = TimeUtils.getFormattedTime(total)
+                binding.seekbar.max = (total / 1000).toInt()
+                binding.seekbar.progress = (current / 1000).toInt()
+            }
         }
     }
 }

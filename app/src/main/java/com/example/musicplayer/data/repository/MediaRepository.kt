@@ -3,13 +3,13 @@ package com.example.musicplayer.data.repository
 import android.content.ContentResolver
 import android.content.Context
 import android.provider.MediaStore
-import com.example.musicplayer.data.model.MediaItem
+import com.example.musicplayer.data.model.MusicItem
 import com.example.musicplayer.util.modifyTitle
 
 class MediaRepository(private val context: Context) {
 
-    fun loadMedia(): List<MediaItem> {
-        val mediaItemList = mutableListOf<MediaItem>()
+    fun loadMedia(): List<MusicItem> {
+        val musicItemList = mutableListOf<MusicItem>()
         val contentResolver: ContentResolver = context.contentResolver
         val uri = MediaStore.Audio.Media.EXTERNAL_CONTENT_URI
         val projection = arrayOf(
@@ -34,14 +34,14 @@ class MediaRepository(private val context: Context) {
                     val artist = cursor.getString(artistColumn!!)
                     val path = cursor.getString(dataColumn!!)
 
-                    mediaItemList.add(MediaItem(id, title.modifyTitle(), artist.modifyTitle(), path))
+                    musicItemList.add(MusicItem(id, title.modifyTitle(), artist.modifyTitle(), path))
                 }
             }
         }
 
-        for (mediaItem in mediaItemList) {
+        for (mediaItem in musicItemList) {
             println("Media Item: ${mediaItem.title} by ${mediaItem.path}")
         }
-        return mediaItemList
+        return musicItemList
     }
 }

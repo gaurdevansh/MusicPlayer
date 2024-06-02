@@ -1,32 +1,30 @@
 package com.example.musicplayer.ui.viewmodel
 
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.example.musicplayer.data.model.MusicItem
+import com.example.musicplayer.media.MediaPlayer
 import com.example.musicplayer.service.MediaService
 
 class MediaPlayerViewModel : ViewModel() {
 
-    private val _isPlaying = MutableLiveData<Boolean>()
-    val isPlaying: LiveData<Boolean> get() = _isPlaying
-
-    fun startMedia(mediaService: MediaService, url: String) {
-        mediaService.start(url)
-        _isPlaying.value = true
+    fun exposeMediaState(mediaService: MediaService): LiveData<MediaPlayer.PlayerState> {
+        return mediaService.mediaState
     }
 
-    fun playMedia(mediaService: MediaService, url: String) {
-        mediaService.play(url)
-        _isPlaying.value = true
+    fun exposeCurrentMedia(mediaService: MediaService): LiveData<MusicItem> {
+        return mediaService.currentMedia
     }
 
-    fun pauseMedia(mediaService: MediaService) {
-        mediaService.pause()
-        _isPlaying.value = false
+    fun exposeMediaPosition(mediaService: MediaService): LiveData<MediaPlayer.PlayerPosition> {
+        return mediaService.mediaPosition
     }
 
-    fun stopMedia(mediaService: MediaService) {
-        mediaService.stop()
-        _isPlaying.value = false
+    fun prepare(mediaService: MediaService, musicItem: MusicItem) {
+        mediaService.prepare(musicItem)
+    }
+
+    fun playPause(mediaService: MediaService) {
+        mediaService.playPause()
     }
 }
