@@ -2,9 +2,11 @@ package com.example.musicplayer.ui.fragments
 
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.SeekBar
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import com.example.musicplayer.R
@@ -16,7 +18,7 @@ import com.example.musicplayer.ui.MainActivity
 import com.example.musicplayer.ui.viewmodel.MediaPlayerViewModel
 import com.example.musicplayer.util.TimeUtils
 
-class MediaPlayerFragment: Fragment(R.layout.fragment_music_player) {
+class MediaPlayerFragment : Fragment(R.layout.fragment_music_player) {
 
     private lateinit var binding: FragmentMusicPlayerBinding
 
@@ -41,10 +43,13 @@ class MediaPlayerFragment: Fragment(R.layout.fragment_music_player) {
         super.onViewCreated(view, savedInstanceState)
 
         mediaService?.let {
-            viewModel.prepare(it, musicItem = MusicItem(1,
-            "410",
-            "Siddhu Moosewala",
-                "/storage/emulated/0/Download/410.mp3")
+            viewModel.prepare(
+                it, musicItem = MusicItem(
+                    1,
+                    "410",
+                    "Siddhu Moosewala",
+                    "/storage/emulated/0/Download/410.mp3"
+                )
             )
         }
 
@@ -53,6 +58,7 @@ class MediaPlayerFragment: Fragment(R.layout.fragment_music_player) {
                 viewModel.playPause(service)
             }
         }
+
         observeMediaControls()
     }
 
@@ -79,6 +85,18 @@ class MediaPlayerFragment: Fragment(R.layout.fragment_music_player) {
                 binding.seekbar.max = (total / 1000).toInt()
                 binding.seekbar.progress = (current / 1000).toInt()
             }
+
+            binding.seekbar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
+                override fun onProgressChanged(p0: SeekBar?, p1: Int, p2: Boolean) {
+                    //NOP
+                }
+                override fun onStartTrackingTouch(p0: SeekBar?) {
+                    //NOP
+                }
+                override fun onStopTrackingTouch(seekbar: SeekBar?) {
+                    viewModel.setMediaPosition(it, seekbar?.progress!!.toLong() * 1000L)
+                }
+            })
         }
     }
 }

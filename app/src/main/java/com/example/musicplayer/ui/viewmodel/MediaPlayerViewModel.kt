@@ -27,4 +27,8 @@ class MediaPlayerViewModel : ViewModel() {
     fun playPause(mediaService: MediaService) {
         mediaService.playPause()
     }
+
+    fun setMediaPosition(mediaService: MediaService, pos: Long) {
+        mediaService.setMediaPosition(pos)
+    }
 }

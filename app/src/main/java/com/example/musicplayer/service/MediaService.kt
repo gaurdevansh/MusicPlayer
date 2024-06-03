@@ -41,6 +41,10 @@ class MediaService : Service() {
         player.playPause()
     }
 
+    fun setMediaPosition(pos: Long) {
+        player.setPosition(pos)
+    }
+
     inner class MediaBinder : Binder() {
         fun getService(): MediaService = this@MediaService
     }
