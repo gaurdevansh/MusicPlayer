@@ -1,6 +1,7 @@
 package com.example.musicplayer.ui.fragments
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -30,12 +31,22 @@ class MediaListFragment: Fragment(R.layout.fragment_music_list) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        adapter = MediaListAdapter()
+        adapter = MediaListAdapter(listener)
         binding.mediaListRv.layoutManager = LinearLayoutManager(context)
         binding.mediaListRv.adapter = adapter
         viewModel.mediaTracks.observe(viewLifecycleOwner, Observer { mediaTracks ->
             adapter.updateMedia(mediaTracks)
         })
         viewModel.loadMedia()
+    }
+
+    private val listener = object : MediaClickListener {
+        override fun onMediaItemClick(pos: Int) {
+            Log.d("Test: ", "pos: $pos")
+        }
+    }
+
+    interface MediaClickListener {
+        fun onMediaItemClick(pos: Int)
     }
 }
