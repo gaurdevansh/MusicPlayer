@@ -15,6 +15,7 @@ import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 import com.example.musicplayer.R
+import com.example.musicplayer.data.model.MusicItem
 import com.example.musicplayer.databinding.ActivityMainBinding
 import com.example.musicplayer.service.MediaService
 
@@ -25,6 +26,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var navController: NavController
     private var mediaService: MediaService? = null
     private var isBound = false
+    private var currentMediaItem: MusicItem? = null
 
     private val connection = object : ServiceConnection {
         override fun onServiceConnected(p0: ComponentName?, p1: IBinder?) {
@@ -97,4 +99,10 @@ class MainActivity : AppCompatActivity() {
             }
         }
     }
+
+    fun setCurrentMedia(mediaItem: MusicItem) {
+        this.currentMediaItem = mediaItem
+    }
+
+    fun getCurrentMedia(): MusicItem? = this.currentMediaItem
 }

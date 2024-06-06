@@ -44,12 +44,8 @@ class MediaPlayerFragment : Fragment(R.layout.fragment_music_player) {
 
         mediaService?.let {
             viewModel.prepare(
-                it, musicItem = MusicItem(
-                    1,
-                    "410",
-                    "Siddhu Moosewala",
-                    "/storage/emulated/0/Download/410.mp3"
-                )
+                it,
+                musicItem = (activity as MainActivity).getCurrentMedia()!!
             )
         }
 
