@@ -10,6 +10,7 @@ import android.widget.SeekBar
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import com.example.musicplayer.R
+import com.example.musicplayer.controller.MediaPlayerController
 import com.example.musicplayer.data.model.MusicItem
 import com.example.musicplayer.databinding.FragmentMusicPlayerBinding
 import com.example.musicplayer.media.MediaPlayer
@@ -45,7 +46,7 @@ class MediaPlayerFragment : Fragment(R.layout.fragment_music_player) {
         mediaService?.let {
             viewModel.prepare(
                 it,
-                musicItem = (activity as MainActivity).getCurrentMedia()!!
+                MediaPlayerController.getInstance().getCurrentMedia()!!
             )
         }
 

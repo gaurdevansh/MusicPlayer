@@ -12,6 +12,7 @@ import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.musicplayer.R
+import com.example.musicplayer.controller.MediaPlayerController
 import com.example.musicplayer.data.model.MusicItem
 import com.example.musicplayer.databinding.FragmentMusicListBinding
 import com.example.musicplayer.service.MediaService
@@ -49,7 +50,7 @@ class MediaListFragment: Fragment(R.layout.fragment_music_list) {
 
     private val listener = object : MediaClickListener {
         override fun onMediaItemClick(pos: Int) {
-            (activity as MainActivity).setCurrentMedia(mediaList[pos])
+            MediaPlayerController.getInstance().setCurrentMedia(mediaList[pos])
             findNavController().navigate(R.id.action_musicListFragment_to_musicPlayerFragment)
         }
     }
