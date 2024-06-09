@@ -43,13 +43,6 @@ class MediaPlayerFragment : Fragment(R.layout.fragment_music_player) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        mediaService?.let {
-            viewModel.prepare(
-                it,
-                MediaPlayerController.getInstance().getCurrentMedia()!!
-            )
-        }
-
         binding.playPauseBtn.setOnClickListener {
             mediaService?.let { service ->
                 viewModel.playPause(service)
@@ -61,7 +54,7 @@ class MediaPlayerFragment : Fragment(R.layout.fragment_music_player) {
 
     private fun observeMediaControls() {
         mediaService?.let {
-            viewModel.exposeMediaState(it).observe(viewLifecycleOwner) { isPlaying ->
+            viewModel.exposeMediaState().observe(viewLifecycleOwner) { isPlaying ->
                 binding.playPauseBtn.setImageResource(
                     if (isPlaying == MediaPlayer.PlayerState.PLAYING) {
                         R.drawable.ic_pause
@@ -71,12 +64,12 @@ class MediaPlayerFragment : Fragment(R.layout.fragment_music_player) {
                 )
             }
 
-            viewModel.exposeCurrentMedia(it).observe(viewLifecycleOwner) { musicItem ->
+            viewModel.exposeCurrentMedia().observe(viewLifecycleOwner) { musicItem ->
                 binding.mediaArtist.text = musicItem.artist
                 binding.mediaTitle.text = musicItem.title
             }
 
-            viewModel.exposeMediaPosition(it).observe(viewLifecycleOwner) { (current, total) ->
+            viewModel.exposeMediaPosition().observe(viewLifecycleOwner) { (current, total) ->
                 binding.currentDuration.text = TimeUtils.getFormattedTime(current)
                 binding.totalDuration.text = TimeUtils.getFormattedTime(total)
                 binding.seekbar.max = (total / 1000).toInt()

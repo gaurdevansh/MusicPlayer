@@ -8,7 +8,6 @@ import android.content.pm.PackageManager
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.IBinder
-import android.widget.MediaController
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
@@ -16,6 +15,7 @@ import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 import com.example.musicplayer.R
+import com.example.musicplayer.controller.MediaPlayerController
 import com.example.musicplayer.databinding.ActivityMainBinding
 import com.example.musicplayer.service.MediaService
 
@@ -32,6 +32,7 @@ class MainActivity : AppCompatActivity() {
             val binder = p1 as MediaService.MediaBinder
             mediaService = binder.getService()
             isBound = true
+            MediaPlayerController.getInstance().setMediaService(mediaService!!)
         }
 
         override fun onServiceDisconnected(p0: ComponentName?) {
@@ -56,14 +57,6 @@ class MainActivity : AppCompatActivity() {
         super.onStart()
         Intent(this, MediaService::class.java).also { intent ->
             bindService(intent, connection, Context.BIND_AUTO_CREATE)
-        }
-    }
-
-    override fun onStop() {
-        super.onStop()
-        if (isBound) {
-            unbindService(connection)
-            isBound = false
         }
     }
 

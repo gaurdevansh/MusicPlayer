@@ -5,16 +5,6 @@ import com.example.musicplayer.service.MediaService
 
 class MediaPlayerController {
 
-    companion object {
-        @Volatile
-        private var instance: MediaPlayerController? = null
-
-        fun getInstance(): MediaPlayerController =
-            instance ?: synchronized(this) {
-                instance ?: MediaPlayerController().also { instance = it }
-            }
-    }
-
     private var currentPlayingMedia: MusicItem? = null
     private lateinit var mediaService: MediaService
 
@@ -26,6 +16,20 @@ class MediaPlayerController {
 
     fun setMediaService(mediaService: MediaService) {
         this.mediaService = mediaService
+    }
+
+    fun play(musicItem: MusicItem) {
+        mediaService.prepare(musicItem)
+    }
+
+    companion object {
+        @Volatile
+        private var instance: MediaPlayerController? = null
+
+        fun getInstance(): MediaPlayerController =
+            instance ?: synchronized(this) {
+                instance ?: MediaPlayerController().also { instance = it }
+            }
     }
 
 }

@@ -50,7 +50,7 @@ class MediaListFragment: Fragment(R.layout.fragment_music_list) {
 
     private val listener = object : MediaClickListener {
         override fun onMediaItemClick(pos: Int) {
-            MediaPlayerController.getInstance().setCurrentMedia(mediaList[pos])
+            MediaPlayerController.getInstance().play(mediaList[pos])
             findNavController().navigate(R.id.action_musicListFragment_to_musicPlayerFragment)
         }
     }

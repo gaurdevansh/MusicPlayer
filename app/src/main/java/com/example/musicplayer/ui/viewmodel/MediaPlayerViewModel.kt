@@ -8,16 +8,16 @@ import com.example.musicplayer.service.MediaService
 
 class MediaPlayerViewModel : ViewModel() {
 
-    fun exposeMediaState(mediaService: MediaService): LiveData<MediaPlayer.PlayerState> {
-        return mediaService.mediaState
+    fun exposeMediaState(): LiveData<MediaPlayer.PlayerState> {
+        return MediaService.mediaState
     }
 
-    fun exposeCurrentMedia(mediaService: MediaService): LiveData<MusicItem> {
-        return mediaService.currentMedia
+    fun exposeCurrentMedia(): LiveData<MusicItem> {
+        return MediaService.currentMedia
     }
 
-    fun exposeMediaPosition(mediaService: MediaService): LiveData<MediaPlayer.PlayerPosition> {
-        return mediaService.mediaPosition
+    fun exposeMediaPosition(): LiveData<MediaPlayer.PlayerPosition> {
+        return MediaService.mediaPosition
     }
 
     fun prepare(mediaService: MediaService, musicItem: MusicItem) {
