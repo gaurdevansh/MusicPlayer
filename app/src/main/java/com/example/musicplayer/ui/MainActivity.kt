@@ -11,6 +11,7 @@ import android.os.IBinder
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.fragment.app.commit
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
@@ -18,6 +19,7 @@ import com.example.musicplayer.R
 import com.example.musicplayer.controller.MediaPlayerController
 import com.example.musicplayer.databinding.ActivityMainBinding
 import com.example.musicplayer.service.MediaService
+import com.example.musicplayer.ui.fragments.HomeFragment
 
 private const val REQUEST_CODE_READ_EXTERNAL_STORAGE = 1
 class MainActivity : AppCompatActivity() {
@@ -49,7 +51,8 @@ class MainActivity : AppCompatActivity() {
         val navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
         navController = navHostFragment.navController
         binding.bottomNavigation.setupWithNavController(navController)
-
+        MediaPlayerController.getInstance().setContext(this)
+        MediaPlayerController.getInstance().setFragmentManager(supportFragmentManager)
         checkPermissions()
     }
 
@@ -87,6 +90,27 @@ class MainActivity : AppCompatActivity() {
                 //loadMediaItems()
             } else {
                 Toast.makeText(this, "Permission Denied", Toast.LENGTH_SHORT).show()
+            }
+        }
+    }
+
+    fun showMediaPlayer() {
+        supportFragmentManager.commit {
+            replace(R.id.full_media_player_container, HomeFragment::class.java, null)
+                .addToBackStack("FullMediaPlayer")
+        }
+    }
+
+    override fun onBackPressed() {
+        when (MediaPlayerController.getInstance().screenState) {
+            MediaPlayerController.MediaPlayerScreenState.NONE -> {
+                super.onBackPressed()
+            }
+            MediaPlayerController.MediaPlayerScreenState.MINI -> {
+                MediaPlayerController.getInstance().removeMediaPlayerScreen()
+            }
+            MediaPlayerController.MediaPlayerScreenState.FULL -> {
+                MediaPlayerController.getInstance().removeMediaPlayerScreen()
             }
         }
     }
