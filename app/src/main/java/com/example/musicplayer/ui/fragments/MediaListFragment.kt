@@ -1,8 +1,6 @@
 package com.example.musicplayer.ui.fragments
 
-import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,15 +12,13 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.musicplayer.R
 import com.example.musicplayer.controller.MediaPlayerController
 import com.example.musicplayer.data.model.MusicItem
-import com.example.musicplayer.databinding.FragmentMusicListBinding
-import com.example.musicplayer.service.MediaService
-import com.example.musicplayer.ui.MainActivity
+import com.example.musicplayer.databinding.FragmentMediaListBinding
 import com.example.musicplayer.ui.adapter.MediaListAdapter
 import com.example.musicplayer.ui.viewmodel.MediaListViewModel
 
-class MediaListFragment: Fragment(R.layout.fragment_music_list) {
+class MediaListFragment: Fragment(R.layout.fragment_media_list) {
 
-    private lateinit var binding: FragmentMusicListBinding
+    private lateinit var binding: FragmentMediaListBinding
     private val viewModel: MediaListViewModel by viewModels()
     private lateinit var adapter: MediaListAdapter
     private var mediaList: List<MusicItem> = emptyList()
@@ -32,7 +28,7 @@ class MediaListFragment: Fragment(R.layout.fragment_music_list) {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = FragmentMusicListBinding.inflate(inflater, container, false)
+        binding = FragmentMediaListBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -51,7 +47,7 @@ class MediaListFragment: Fragment(R.layout.fragment_music_list) {
     private val listener = object : MediaClickListener {
         override fun onMediaItemClick(pos: Int) {
             MediaPlayerController.getInstance().play(mediaList[pos])
-            findNavController().navigate(R.id.action_musicListFragment_to_musicPlayerFragment)
+            findNavController().navigate(R.id.musicPlayerFragment)
         }
     }
 

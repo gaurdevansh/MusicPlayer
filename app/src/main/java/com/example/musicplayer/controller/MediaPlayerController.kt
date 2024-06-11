@@ -19,6 +19,8 @@ class MediaPlayerController {
     private var currentMediaPlayerScreenState = MediaPlayerScreenState.NONE
     private var fragmentManager: FragmentManager? = null
     var screenState: MediaPlayerScreenState = MediaPlayerScreenState.NONE
+    private var homeFragment = HomeFragment()
+    private var miniMediaPlayerFragment = MiniMediaPlayerFragment()
 
     fun setCurrentMedia(musicItem: MusicItem) {
         this.currentPlayingMedia = musicItem
@@ -48,7 +50,7 @@ class MediaPlayerController {
         when(screenType) {
             MediaPlayerScreenState.FULL -> {
                 fragmentManager?.commit {
-                    replace(R.id.full_media_player_container, HomeFragment::class.java, tag = "FullMediaPlayer")
+                    replace(R.id.full_media_player_container,  homeFragment)
                         .addToBackStack("FullMediaPlayer")
                 }
                 currentMediaPlayerScreenState = MediaPlayerScreenState.FULL
@@ -56,10 +58,10 @@ class MediaPlayerController {
             }
             MediaPlayerScreenState.MINI -> {
                 fragmentManager?.commit {
-                    replace(R.id.mini_media_player_container, MiniMediaPlayerFragment::class.java, tag = "MiniMediaPlayer")
+                    replace(R.id.mini_media_player_container, miniMediaPlayerFragment)
                         .addToBackStack("MiniMediaPlayer")
                 }
-                currentMediaPlayerScreenState = MediaPlayerScreenState.FULL
+                currentMediaPlayerScreenState = MediaPlayerScreenState.MINI
                 screenState = currentMediaPlayerScreenState
             }
             MediaPlayerScreenState.NONE -> {}
@@ -69,13 +71,15 @@ class MediaPlayerController {
     fun removeMediaPlayerScreen() {
         if (currentMediaPlayerScreenState == MediaPlayerScreenState.FULL) {
             fragmentManager?.commit {
-                remove(fragmentManager?.findFragmentByTag("FullMediaPlayer")!!)
+                remove(homeFragment)
             }
+            screenState = MediaPlayerScreenState.MINI
             showMediaPlayerScreen(MediaPlayerScreenState.MINI)
         } else {
             fragmentManager?.commit {
-                remove(fragmentManager?.findFragmentByTag("MiniMediaPlayer")!!)
+                remove(miniMediaPlayerFragment)
             }
+            screenState = MediaPlayerScreenState.NONE
         }
     }
 
