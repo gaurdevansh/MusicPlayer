@@ -28,9 +28,10 @@
     <FrameLayout
         android:id="@+id/mini_media_player_container"
         android:layout_width="match_parent"
-        android:layout_height="80dp"
+        android:layout_height="60dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginHorizontal="4dp"
         app:layout_constraintBottom_toTopOf="@id/bottom_navigation" />
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
