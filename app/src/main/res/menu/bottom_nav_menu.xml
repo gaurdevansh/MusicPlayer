@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item android:id="@+id/homeFragment"
+        android:icon="@drawable/ic_home"
+        android:title="Home"
+        app:showAsAction="always"/>
     <item android:id="@+id/mediaListFragment"
         android:icon="@drawable/ic_list"
         android:title="List"
-        app:showAsAction="always"/>
-    <item android:id="@+id/musicPlayerFragment"
-        android:icon="@drawable/ic_music"
-        android:title="Music"
         app:showAsAction="always"/>
     <item android:id="@+id/fragmentSettings"
         android:icon="@drawable/ic_settings"

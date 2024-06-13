@@ -43,6 +43,7 @@ class MediaPlayerFragment : Fragment(R.layout.fragment_music_player) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        (activity as MainActivity).setBottomNavMenuVisibility(false)
         binding.playPauseBtn.setOnClickListener {
             mediaService?.let { service ->
                 viewModel.playPause(service)
@@ -88,5 +89,10 @@ class MediaPlayerFragment : Fragment(R.layout.fragment_music_player) {
                 }
             })
         }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        (activity as MainActivity).setBottomNavMenuVisibility(true)
     }
 }

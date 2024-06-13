@@ -9,6 +9,7 @@ import com.example.musicplayer.R
 import com.example.musicplayer.data.model.MusicItem
 import com.example.musicplayer.service.MediaService
 import com.example.musicplayer.ui.fragments.HomeFragment
+import com.example.musicplayer.ui.fragments.MediaPlayerFragment
 import com.example.musicplayer.ui.fragments.MiniMediaPlayerFragment
 
 class MediaPlayerController {
@@ -19,7 +20,7 @@ class MediaPlayerController {
     private var currentMediaPlayerScreenState = MediaPlayerScreenState.NONE
     private var fragmentManager: FragmentManager? = null
     var screenState: MediaPlayerScreenState = MediaPlayerScreenState.NONE
-    private var homeFragment = HomeFragment()
+    private var fullMediaPlayerFragment = MediaPlayerFragment()
     private var miniMediaPlayerFragment = MiniMediaPlayerFragment()
 
     fun setCurrentMedia(musicItem: MusicItem) {
@@ -34,7 +35,6 @@ class MediaPlayerController {
 
     fun play(musicItem: MusicItem) {
         mediaService.prepare(musicItem)
-        //(context as MainActivity).showMediaPlayer()
         showMediaPlayerScreen(setScreenState())
     }
 
@@ -50,7 +50,7 @@ class MediaPlayerController {
         when(screenType) {
             MediaPlayerScreenState.FULL -> {
                 fragmentManager?.commit {
-                    replace(R.id.full_media_player_container,  homeFragment)
+                    replace(R.id.full_media_player_container,  fullMediaPlayerFragment)
                         .addToBackStack("FullMediaPlayer")
                 }
                 currentMediaPlayerScreenState = MediaPlayerScreenState.FULL
@@ -71,7 +71,7 @@ class MediaPlayerController {
     fun removeMediaPlayerScreen() {
         if (currentMediaPlayerScreenState == MediaPlayerScreenState.FULL) {
             fragmentManager?.commit {
-                remove(homeFragment)
+                remove(fullMediaPlayerFragment)
             }
             screenState = MediaPlayerScreenState.MINI
             showMediaPlayerScreen(MediaPlayerScreenState.MINI)
@@ -81,6 +81,11 @@ class MediaPlayerController {
             }
             screenState = MediaPlayerScreenState.NONE
         }
+    }
+
+    fun switchMiniToFullPlayer() {
+        removeMediaPlayerScreen()
+        showMediaPlayerScreen(MediaPlayerScreenState.FULL)
     }
 
     fun setContext(context: Context) {

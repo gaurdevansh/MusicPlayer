@@ -5,9 +5,11 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.MediaController
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import com.example.musicplayer.R
+import com.example.musicplayer.controller.MediaPlayerController
 import com.example.musicplayer.databinding.MiniMediaPlayerBinding
 import com.example.musicplayer.media.MediaPlayer
 import com.example.musicplayer.service.MediaService
@@ -36,6 +38,10 @@ class MiniMediaPlayerFragment : Fragment(R.layout.mini_media_player) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        binding.miniPlayerRootView.setOnClickListener {
+            MediaPlayerController.getInstance().switchMiniToFullPlayer()
+        }
 
         binding.playPauseBtn.setOnClickListener {
             mediaService?.let { service ->

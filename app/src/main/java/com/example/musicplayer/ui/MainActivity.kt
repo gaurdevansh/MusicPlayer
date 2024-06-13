@@ -8,6 +8,8 @@ import android.content.pm.PackageManager
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.IBinder
+import android.text.BoringLayout
+import android.view.View
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
@@ -113,5 +115,9 @@ class MainActivity : AppCompatActivity() {
                 MediaPlayerController.getInstance().removeMediaPlayerScreen()
             }
         }
+    }
+
+    fun setBottomNavMenuVisibility(isVisible: Boolean) {
+        binding.bottomNavigation.visibility = if (isVisible) View.VISIBLE else View.INVISIBLE
     }
 }

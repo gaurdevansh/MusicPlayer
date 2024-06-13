@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/mediaListFragment">
+    app:startDestination="@id/homeFragment">
 
     <fragment
         android:id="@+id/mediaListFragment"
@@ -26,4 +26,8 @@
         android:name="com.example.musicplayer.ui.fragments.FragmentSettings"
         android:label="FragmentSettings"
         tools:layout="@layout/fragment_settings"/>
+    <fragment
+        android:id="@+id/homeFragment"
+        android:name="com.example.musicplayer.ui.fragments.HomeFragment"
+        android:label="HomeFragment" />
 </navigation>
