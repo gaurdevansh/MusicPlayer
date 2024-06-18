@@ -8,8 +8,6 @@ import android.os.Binder
 import android.os.Build
 import android.os.IBinder
 import androidx.core.app.NotificationCompat
-import androidx.lifecycle.LifecycleService
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.example.musicplayer.R
 import com.example.musicplayer.data.model.MusicItem
@@ -82,5 +80,10 @@ class MediaService : Service() {
 
     inner class MediaBinder : Binder() {
         fun getService(): MediaService = this@MediaService
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        player.release()
     }
 }

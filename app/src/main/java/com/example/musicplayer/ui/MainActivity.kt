@@ -11,6 +11,9 @@ import android.os.IBinder
 import android.text.BoringLayout
 import android.view.View
 import android.widget.Toast
+import android.window.OnBackInvokedDispatcher
+import androidx.activity.OnBackPressedCallback
+import androidx.activity.addCallback
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.commit
@@ -56,6 +59,13 @@ class MainActivity : AppCompatActivity() {
         MediaPlayerController.getInstance().setContext(this)
         MediaPlayerController.getInstance().setFragmentManager(supportFragmentManager)
         checkPermissions()
+
+        /*onBackPressedDispatcher.addCallback(this, object: OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+
+            }
+
+        })*/
     }
 
     override fun onStart() {
@@ -103,7 +113,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    override fun onBackPressed() {
+    /*override fun onBackPressed() {
         when (MediaPlayerController.getInstance().screenState) {
             MediaPlayerController.MediaPlayerScreenState.NONE -> {
                 super.onBackPressed()
@@ -115,7 +125,7 @@ class MainActivity : AppCompatActivity() {
                 MediaPlayerController.getInstance().removeMediaPlayerScreen()
             }
         }
-    }
+    }*/
 
     fun setBottomNavMenuVisibility(isVisible: Boolean) {
         binding.bottomNavigation.visibility = if (isVisible) View.VISIBLE else View.INVISIBLE

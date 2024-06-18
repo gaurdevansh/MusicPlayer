@@ -7,6 +7,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.SeekBar
+import androidx.activity.OnBackPressedCallback
+import androidx.activity.addCallback
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import com.example.musicplayer.R
@@ -25,6 +27,7 @@ class MediaPlayerFragment : Fragment(R.layout.fragment_music_player) {
 
     private val viewModel: MediaPlayerViewModel by activityViewModels()
     private var mediaService: MediaService? = null
+    private lateinit var callback: OnBackPressedCallback
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -51,6 +54,13 @@ class MediaPlayerFragment : Fragment(R.layout.fragment_music_player) {
         }
 
         observeMediaControls()
+
+        callback = object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                MediaPlayerController.getInstance().removeMediaPlayerScreen()
+            }
+        }
+        requireActivity().onBackPressedDispatcher.addCallback(this, callback)
     }
 
     private fun observeMediaControls() {
@@ -94,5 +104,6 @@ class MediaPlayerFragment : Fragment(R.layout.fragment_music_player) {
     override fun onDestroyView() {
         super.onDestroyView()
         (activity as MainActivity).setBottomNavMenuVisibility(true)
+        callback.remove()
     }
 }
