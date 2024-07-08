@@ -5,15 +5,11 @@ import android.content.Context
 import android.content.Intent
 import android.content.ServiceConnection
 import android.content.pm.PackageManager
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.IBinder
-import android.text.BoringLayout
 import android.view.View
 import android.widget.Toast
-import android.window.OnBackInvokedDispatcher
-import androidx.activity.OnBackPressedCallback
-import androidx.activity.addCallback
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.commit
@@ -25,6 +21,7 @@ import com.example.musicplayer.controller.MediaPlayerController
 import com.example.musicplayer.databinding.ActivityMainBinding
 import com.example.musicplayer.service.MediaService
 import com.example.musicplayer.ui.fragments.HomeFragment
+
 
 private const val REQUEST_CODE_READ_EXTERNAL_STORAGE = 1
 class MainActivity : AppCompatActivity() {
@@ -126,6 +123,19 @@ class MainActivity : AppCompatActivity() {
             }
         }
     }*/
+
+    override fun onBackPressed() {
+        if (MediaPlayerController.getInstance().screenState ==
+            MediaPlayerController.MediaPlayerScreenState.MINI &&
+            binding.bottomNavigation.selectedItemId == R.id.homeFragment) {
+            val intent = Intent(Intent.ACTION_MAIN)
+            intent.addCategory(Intent.CATEGORY_HOME)
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+            startActivity(intent)
+        } else {
+            super.onBackPressed()
+        }
+    }
 
     fun setBottomNavMenuVisibility(isVisible: Boolean) {
         binding.bottomNavigation.visibility = if (isVisible) View.VISIBLE else View.INVISIBLE
